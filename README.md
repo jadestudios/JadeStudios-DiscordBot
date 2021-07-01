@@ -1,0 +1,2 @@
+# JadeStudios-DiscordBot
+Discord bot
