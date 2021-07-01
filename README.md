@@ -4,7 +4,9 @@ This is a Discord bot written solely for Jade Studios, so with that, this bot is
 
 ## Note:
 ---
-Ther are commented out portions of code that was used in development. They may be useful for debugging/ logging purposes.
+There are commented out portions of code that was used in development. They may be useful for debugging/ logging purposes.
+
+There is a timezone file in /configs. It has been pruned of DST locations. 
 
 ## Dependencies
 ---
