@@ -156,7 +156,7 @@ module.exports = {
 					let tempB = new Attributes(bb.name, bb.value);
 
 					if (aa.value.charAt(aa.value.length - 1) == '%') {
-						tempA.value = aa.value.splice(0, aa.value.length - 1);
+						tempA.value = aa.value.slice(0, aa.value.length - 1);
 					}
 					if (bb.value.charAt(bb.value.length - 1) == '%') {
 						tempB.value = bb.value.slice(0, bb.value.length - 1);
@@ -187,6 +187,7 @@ module.exports = {
 				}
 
 				const table = new Table(2, 10, 'center');
+				table.push(['Attribute :: ', `${args[1]}`]);
 				table.push(['** User **', '** Value **']);
 				table.push(['', '']);
 
@@ -196,13 +197,7 @@ module.exports = {
 					table.push([user.displayName, currentAttribute.value]);
 				});
 
-				const currentEmbed = new Discord.MessageEmbed()
-					.setColor('#66ccff')
-					.addFields(
-						{ name: `Attribute :: ${args[1]}`, value: '```' + table.toString() + '```' },
-					);
-
-				message.channel.send(currentEmbed);
+				message.channel.send('```' + table.toString() + '```');
 				//console.log(table.toString());
 
 			}
