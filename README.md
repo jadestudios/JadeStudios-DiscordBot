@@ -23,7 +23,7 @@ This bot has the following functionalities:
     * Able to send help page via DM
     * Addes attributes to users and prints a table if needed
     * Finds where in the world it is noon 
-    * Check the status of differnt website domains
+    * Check the status of different website domains
     * Move pinned messages to a dedicated channel
     * Reminds user within a certain time frame
     * Pongs your Ping
