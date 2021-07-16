@@ -2,6 +2,10 @@
 
 This is a Discord bot written solely for Jade Studios, so with that, this bot is **not** a one size fit all solution.
 
+## Starting out:
+---
+Do !help to get a full help page
+
 ## Note:
 ---
 There are commented out portions of code that was used in development. They may be useful for debugging/ logging purposes.
