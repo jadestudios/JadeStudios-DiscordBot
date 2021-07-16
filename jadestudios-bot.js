@@ -261,6 +261,7 @@ client.on("guildMemberUpdate", function (oldMember, newMember) {
 	}
 
 	const currentUser = server.users.find(findID);
+	if (currentUser == undefined) return;
 
 	currentUser.name = member.user.username;
 	currentUser.discriminator = member.user.discriminator;
