@@ -125,7 +125,7 @@ client.on('message', message => {
 	const fileName = `./configs/${message.guild.id}.json`;
 
 	if (!client.commands.has(command)) {
-		message.channel.send(`**${prefix}${command}** does not exist.`);
+		//message.channel.send(`**${prefix}${command}** does not exist.`);
 		return;
 	}
 
