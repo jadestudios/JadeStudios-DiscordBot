@@ -6,6 +6,10 @@ This is a Discord bot written solely for Jade Studios, so with that, this bot is
 ---
 Do !help to get a full help page
 
+## Planned work:
+---
+Transition all sync'd code to async
+
 ## Note:
 ---
 There are commented out portions of code that was used in development. They may be useful for debugging/ logging purposes.
