@@ -20,7 +20,7 @@ There is a timezone file in /configs. It has been pruned of DST locations.
 ---
 * Node.js v14.4+
 * External Node modules:
-    * Discord.js
+    * Discord.js - API v12
     * seedrandom
     * ping
 
@@ -35,6 +35,7 @@ This bot has the following functionalities:
     * Move pinned messages to a dedicated channel
     * Reminds user within a certain time frame
     * Pongs your Ping
+    * Sends the catJam gif 
 * Event Driven
     * Creates a local server file on join with custom user objects
     * Creates a local server config file on join as well
@@ -61,3 +62,9 @@ It's not bug free.
 Also, I can't code. This is my first time using Node.js. I know there are ways to write a more efficient program than what I have, but my inexperienced self is the thing keeping me back.
 
 If you are reading this, please tell me how I can fix it and possibly point me to some reading material as well. 
+
+
+## References/ Attributions
+---
+* <div>Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
+* https://v12.discordjs.guide/
