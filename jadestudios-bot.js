@@ -1,4 +1,4 @@
-// Must user node.js V14.4+
+// Must use node.js V14.4+
 const { User, ServerUser, Pins, Hosts } = require('./genericConst');
 
 // Adds file system from nodejs
@@ -14,11 +14,35 @@ const Discord = require('discord.js');
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
 
-const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
+//For music stuff
+const {Player} = require('discord-music-player');
+const timeOut = 5 * 60 * 1000;
+client.player = new Player(client, {
+	leaveOnEnd: true,
+	leaveOnStop: false,
+	leaveOnEmpty: true,
+	deafenOnJoin: true,
+	timeout: timeOut
+});
+const musicCommands = [];
+const Music = require("./music");
+
+
+//Loads commands
+var commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 
 for (const file of commandFiles) {
 	const command = require(`./commands/${file}`);
 	client.commands.set(command.name, command);
+}
+
+//Loads music commands
+commandFiles = fs.readdirSync('./commands/music').filter(file => file.endsWith('.js'));
+
+for (const file of commandFiles) {
+	const command = require(`./commands/music/${file}`);
+	client.commands.set(command.name, command);
+	musicCommands.push(command.name);
 }
 
 // This does a purge of users on startup.
@@ -107,6 +131,7 @@ client.once('ready', () => {
 
 		} catch (err) { }
 	});
+	console.log("ready");
 });
 
 // login to discord with token
@@ -122,22 +147,36 @@ client.on('message', message => {
 	const args = message.content.slice(matchedPrefix.length).trim().split(/ +/);
 	const command = args.shift().toLowerCase();
 
-	const fileName = `./configs/${message.guild.id}.json`;
+	var fileName = `./configs/${message.guild.id}.json`;
 
 	if (!client.commands.has(command)) {
 		//message.channel.send(`**${prefix}${command}** does not exist.`);
 		return;
 	}
 
+	let isMusic = false;
+	musicCommands.forEach(cm => {
+		if (cm == command && !isMusic) {
+			fileName = client.player;
+			isMusic = true;
+		}
+	});
+
 	try {
 		client.commands.get(command).execute(prefix, command, args, message, fileName);
 	} catch (error) {
-		//console.error(error);
+		console.error(error);
 		message.reply('Failed to execute command');
 	}
 
-	//Object.entries(process.memoryUsage()).forEach(item => console.log(`${item[0]}: ${(item[1] / 1024 / 1024).toFixed(4)} MB`))
+	//Object.entries(process.memoryUsage()).forEach(item => console.log(`${item[0]}: ${(item[1] / 1024 / 1024).toFixed(4)} MB`));
 });
+
+//////////////////////////////////////////////////////
+//	The below portion features Core bot events      //
+// 	This extends until the next block comment       //
+//////////////////////////////////////////////////////
+
 
 // Reapplies the last roles the user had before being kicked
 client.on('guildMemberAdd', member => {
@@ -303,6 +342,38 @@ client.on("guildUpdate", function (oldGuild, newGuild) {
 		server.name = newGuild.name;
 		writeToFile(fileName, server);
 	}
+});
+
+//////////////////////////////////////////////////////
+//	The below portion features Music related events //
+// 	This extends until the next block comment       //
+//////////////////////////////////////////////////////
+
+client.player.on("songFirst", function (message, song){
+	message.channel.send(Music.createEmbed(`Now Playing: ${song.name}`));
+});
+
+client.player.on("songChanged", function (message, newSong, oldSong){
+	message.channel.send(Music.createEmbed(`Now Playing: ${newSong.name}`));
+});
+
+client.player.on("songAdd", function (message, queue, song){
+	if(queue.songs.length > 1){
+		message.channel.send(Music.createEmbed(`Added to queue: ${song.name}`));
+	}
+});
+
+client.player.on("error", function (error, message) {
+	switch (error) {
+		case 'SearchIsNull':
+			message.channel.send(Music.createEmbed(`I can't find this song`));
+			break;
+		case 'VideoUnavailable':
+			message.channel.send(Music.createEmbed( `This current song is unavailable. Skipping`));
+			break;
+		default:
+			message.channel.send(Music.createEmbed(`**Yipes**\n Error: ${error}`));
+	};
 });
 
 

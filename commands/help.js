@@ -67,6 +67,16 @@ module.exports = {
 				${prefix}status change <Original Host> <New Host>
 				${prefix}status add <Host>
 				${prefix}status remove <Host>
+
+		**catjam**
+		Sends a gif of catJam
+
+		Usage:  ${prefix}catjam
+
+		**music**
+		Calls the music player help page
+
+		Usage:  ${prefix}music
 		
 		`;
 		message.author.send(toPrint);
