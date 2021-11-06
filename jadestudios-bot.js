@@ -280,10 +280,21 @@ client.on("guildCreate", function (guild) {
 
 });
 
-// Deletes files related to a guild
+// Deletes files related to a guild and clears the music queue since it can fail to do so
 client.on("guildDelete", function (guild) {
 	const fileName = `./configs/${guild.id}.json`;
 	const fileName2 = `./configs/${guild.id}_config.json`;
+
+	//In essence, this is player.stop
+	let queue = client.player.queues.get(guild.id);
+	if(queue){
+		queue.stopped = true;
+		queue.songs = [];
+		if(queue.dispatcher){
+			queue.dispatcher.end();
+		}
+		console.log("stopped");
+	}	
 
 	fs.rmSync(fileName);
 	fs.rmSync(fileName2);
