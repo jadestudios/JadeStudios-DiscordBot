@@ -1,0 +1,5 @@
+node_modules
+prod
+src/.scannerwork/.sonar_lock
+src/.scannerwork/report-task.txt
+SonarScan

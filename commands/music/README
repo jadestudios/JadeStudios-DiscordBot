@@ -1,3 +1,0 @@
-This code uses this as a framework https://github.com/ZerioDev/Music-bot.
-
-But uses the module discord-music-player instead due to an abhorrent memory leak in discord-player
