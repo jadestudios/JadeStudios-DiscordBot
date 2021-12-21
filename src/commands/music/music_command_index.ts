@@ -2,6 +2,7 @@ import { Collection } from "discord.js";
 import ICommand from "../command";
 import Leave from "./leave";
 import Loop from "./loop";
+import Music from "./music";
 import Pause from "./pause";
 import Play from "./play";
 import Queue from "./queue";
@@ -35,6 +36,8 @@ export default function getMusicCommands(): Collection<string, ICommand> {
 	command = new Shuffle;
 	commands.set(command.name, command);
 	command = new Skip;
+	commands.set(command.name, command);
+	command = new Music;
 	commands.set(command.name, command);
 
 	return commands;
