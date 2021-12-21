@@ -89,6 +89,6 @@ Please tell me how I can fix any bugs and possibly point me to some reading mate
 ## References/ Attributions
 ---
 * <div>Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
-* https://v12.discordjs.guide/
+* https://discordjs.guide/
 * https://github.com/ZerioDev/Music-bot
     * I opted to use discord-music-player since there is a memory leak from discord-player. 
