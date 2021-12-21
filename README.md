@@ -23,7 +23,7 @@ Do !help to get a full help page.
 
 The config.json file will build during tsc, so you can put token there.
 
-DB files need to be copied over to prod. This repo is setup to optimally run the bot.
+DB files need to be copied over to prod.
 
 There is a timezone file in /configs. It has been pruned of DST locations. 
 
