@@ -71,11 +71,13 @@ This bot has the following functionalities:
 ---
 Get the dependencies from above. 
 
-Get your bot token from the Discord Dev Portal and shove it into the config.json in /src/configs. 
+Get your bot token from the Discord Dev Portal and shove it into the config.json in ./src/configs. 
 
 Create a bot URL with the permissions: 2436099136 . 
 
-Start the bot via Node.js
+Do npm run build and copy the timezones_compact.db to ./prod/configs
+
+Start the bot via Node.js using npm run start
 
 Add the bot to your server.
 
