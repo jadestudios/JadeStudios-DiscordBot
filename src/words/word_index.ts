@@ -1,4 +1,5 @@
 import { Collection } from "discord.js";
+import roleOne from "./845856786941607946";
 import { ClocksWord } from "./commands/clocks";
 import { HuhWord } from "./commands/huh";
 import Skyrim from "./skyrim";
@@ -21,6 +22,10 @@ export default function getWords(): [Collection<string, IWord>, RegExp] {
 	wordString += `|${word.name}`;
 
 	word = new ClocksWord;
+	words.set(word.name, word);
+	wordString += `|${word.name}`;
+
+	word = new roleOne;
 	words.set(word.name, word);
 	wordString += `|${word.name}`;
 
