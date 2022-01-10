@@ -16,10 +16,11 @@ export default class MessageCreate implements IEvent {
 		if (message.member == null || message.guild == null || message.client.user == null) return;
 		if (message.channel.type === "DM") return;
 
-		const pinHandler = new PinHandler(`${message.guild.id}.db`);
-
-		if (pinHandler.hasArchiveChannel() && message.type === 'CHANNEL_PINNED_MESSAGE') {
-			message.delete();
+		if (message.type === 'CHANNEL_PINNED_MESSAGE') { //Makes it so that new PinHandler is made during pinned checks
+			const pinHandler = new PinHandler(`${message.guild.id}.db`);
+			if (pinHandler.hasArchiveChannel()) {
+				message.delete();
+			}		
 			return;
 		}
 
