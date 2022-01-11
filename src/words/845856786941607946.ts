@@ -6,7 +6,7 @@ import IWord from "./word";
 export default class roleOne implements IWord {
 	public readonly name: string = '845856786941607946'; //This is a specific role in the server
 	public execute(message: Message<boolean>, misc?: any): void {
-		const randomUserID = (message.guild?.members.cache.filter(member => !member.user.bot).random())?.id; 
+		const randomUserID = (message.guild?.members.cache.filter(member => !member.user.bot && member.roles.cache.has('845856786941607946')).random())?.id; 
 		message.channel.send(`<@${randomUserID ? randomUserID : message.author.id}>`);	
 	}
 }
