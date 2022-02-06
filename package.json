@@ -13,13 +13,11 @@
   "dependencies": {
     "@discordjs/opus": "^0.7.0",
     "@discordjs/voice": "^0.7.5",
+    "@jadestudios/discord-music-player": "^8.3.1-az14",
     "better-sqlite3": "^7.4.5",
-    "discord-music-player": "^8.3.1",
-    "discord.js": "^13.3.1",
+    "discord.js": "^13.6.0",
     "ffmpeg-static": "^4.4.0",
-    "ping": "^0.4.1",
-    "ytdl-core": "^4.10.0",
-    "ytsr": "^3.6.0"
+    "ping": "^0.4.1"
   },
   "devDependencies": {
     "@types/better-sqlite3": "^7.4.1",

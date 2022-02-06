@@ -1,4 +1,4 @@
-import { Player, Song } from "discord-music-player";
+import { Player, Song } from "@jadestudios/discord-music-player";
 import { Message } from "discord.js";
 import checkMusicConstraints from "../../util/util_checkMusicConstraints";
 import createMusicEmbed from "../../util/util_createMusicEmbed";

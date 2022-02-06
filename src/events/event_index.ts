@@ -1,4 +1,4 @@
-import { Player, PlayerEvents } from "discord-music-player";
+import { Player, PlayerEvents } from "@jadestudios/discord-music-player";
 import { Client } from "discord.js";
 import getMainEvents from "./main/main_event_index";
 import getMusicEvents from "./music/music_event_index";

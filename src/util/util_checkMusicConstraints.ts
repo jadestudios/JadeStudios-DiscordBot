@@ -1,4 +1,4 @@
-import { Player, Queue } from "discord-music-player";
+import { Player, Queue } from "@jadestudios/discord-music-player";
 import { Message } from "discord.js";
 import createMusicEmbed from "./util_createMusicEmbed";
 

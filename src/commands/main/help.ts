@@ -36,7 +36,13 @@ For more info, click the link below.`;
 				.setLabel("Command Help")
 				.setURL('https://gist.github.com/thenerdoflight/1fdd65669bb7b55fb62cdf2f634690cc')
 		);
-		message.author.send({ content: toPrint, components: [button] });
-		message.channel.send(`Cheers, love! The cavalry's here!`);
+		message.author.send({ content: toPrint, components: [button] })
+			.then(m2 => {
+				message.reply(`Cheers, love! The cavalry's here!`);
+			})
+			.catch(error => {
+				console.error(error);
+				message.reply('Unable to send DM');
+		});
 	}
 }

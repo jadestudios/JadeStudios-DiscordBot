@@ -1,4 +1,4 @@
-import { Player } from 'discord-music-player';
+import { Player } from '@jadestudios/discord-music-player';
 import { Client, Intents } from 'discord.js';
 import { token } from './configs/config.json';
 import registerEvents from './events/event_index';

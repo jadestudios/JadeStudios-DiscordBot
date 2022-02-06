@@ -1,7 +1,6 @@
-import { Message, MessageEmbed } from "discord.js";
+import { EmbedFieldData, Message, MessageEmbed } from "discord.js";
 import { promisify } from "util";
 import { HostHandler } from "../../server/server_HostHandler";
-import { Table } from "../../util/util_Table";
 import ICommand from "../command";
 import { sys } from "ping";
 
@@ -20,27 +19,30 @@ export default class Status implements ICommand {
 
 		if (args.length === 0) {
 			const setTimeoutPromise = promisify(setTimeout);
-
-			const table = new Table(2, 10, 'center');
-			table.push(['** Status **', '']);
 			const hosts = hostHandler.getHosts();
+			let isDead = false;
+			const fieldArray: EmbedFieldData | EmbedFieldData[] | { name: any; value: any; inline: any; }[] = [];
 
 			hosts.forEach(function (host) {
 				sys.probe(host, function (isAlive) {
-					if (isAlive) {
-						table.push([host, 'Online']);
+					if (!isAlive) {
+						isDead = true;
+						fieldArray.push({ name: `Connection to: ${host}`, value: ' Failed ', inline: false });
 					} else {
-						table.push([host, 'Offline']);
+						fieldArray.push({ name: `Connection to: ${host}`, value: ' Success', inline: false });
 					}
 				});
 			});
 
+			fieldArray.unshift({ name: 'Discord API', value: 'Connected', inline: false, });
+
 			setTimeoutPromise(hosts.length * 125, message).then((message) => {
 				const currentEmbed = new MessageEmbed()
-					.setColor('#66ccff')
-					.addFields(
-						{ name: '\u200B', value: '```' + table.toString() + '```' },
-					);
+					.setColor(isDead ? 'RED' : 'GREEN')
+					.setTitle('STATUS')
+					.setDescription(isDead ? 'Partially Online' : 'Fully Online')
+					.addFields(fieldArray)
+					.setTimestamp();
 
 				message.channel.send({ embeds: [currentEmbed] });
 			});
@@ -74,7 +76,7 @@ export default class Status implements ICommand {
 				}
 
 				case 'add': {
-					if (hostHandler.addHost(args[1])){
+					if (hostHandler.addHost(args[1])) {
 						message.channel.send(`Added host: ${args[1]}`);
 					} else {
 						message.channel.send(`Failed to add host`);

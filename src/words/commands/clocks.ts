@@ -1,4 +1,4 @@
-import { Player } from "discord-music-player";
+import { Player } from "@jadestudios/discord-music-player";
 import { Message } from "discord.js";
 import addMusic from "../../util/util_addMusic";
 import IWord from "../word";
