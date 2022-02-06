@@ -31,12 +31,12 @@ There is a timezone file in /configs. It has been pruned of DST locations.
 ---
 * Node.js v16.13
 * External Node modules:
-    * Discord.js v13
+    * Discord.js v13.6.0
     * @discordjs/opus
     * @discordjs/voice
     * better-sqlite3
     * ffmpeg-static
-    * discord-music-player
+    * @jadestudios/discord-music-player
     * ping
 
 ## Functionality
@@ -52,6 +52,7 @@ This bot has the following functionalities:
     * Pongs your Ping
     * Sends the catJam gif
     * Music in your VC
+    * Makes your sentences random cased
 * Event Driven
     * Core:
         * Creates a local server file on join with custom user objects
@@ -69,7 +70,7 @@ This bot has the following functionalities:
         * Plays Metal Gear Alert when you are in VC
 ## Running the bot
 ---
-Get the dependencies from above. 
+Get the dependencies from above via npm i
 
 Get your bot token from the Discord Dev Portal and shove it into the config.json in ./src/configs. 
 
