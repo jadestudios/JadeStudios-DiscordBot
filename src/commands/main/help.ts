@@ -27,6 +27,7 @@ ${prefix}status add <Host>
 ${prefix}status remove <Host>
 ${prefix}catjam
 ${prefix}music
+${prefix}s
 		
 For more info, click the link below.`;
 
