@@ -9,7 +9,6 @@ import Pins from "./pins";
 import RemindMe from "./remindme";
 import Status from "./status";
 import Toss from "./toss";
-import RandomCase from "./randomcase";
 
 export default function getMainCommands(): Collection<string, ICommand> {
 	const commands = new Collection<string, ICommand>();
@@ -32,8 +31,6 @@ export default function getMainCommands(): Collection<string, ICommand> {
 	command = new Attributes;
 	commands.set(command.name, command);
 	command = new Help;
-	commands.set(command.name, command);
-	command = new RandomCase;
 	commands.set(command.name, command);
 
 	return commands;

@@ -2,6 +2,7 @@ import { Collection } from "discord.js";
 import roleOne from "./845856786941607946";
 import { ClocksWord } from "./commands/clocks";
 import { HuhWord } from "./commands/huh";
+import { RandomCaseWord } from "./commands/randomcase";
 import Skyrim from "./skyrim";
 import IWord from "./word";
 
@@ -27,6 +28,11 @@ export default function getWords(): [Collection<string, IWord>, RegExp] {
 
 	word = new roleOne;
 	words.set(word.name, word);
+	wordString += `|${word.name}`;
+
+	word = new RandomCaseWord;
+	words.set('/s', word);
+	words.set(' /s', word);
 	wordString += `|${word.name}`;
 
 
