@@ -4,12 +4,9 @@ import { promisify } from "util";
 
 export default class RemindMe implements ICommand {
 	public readonly name: string = "remindme";
-	public readonly description: string = "Reminders"
+	public readonly description: string = "Reminders";
 
-	private supportedTimes = ['week', 'day', 'hour', 'minute', 'second'];
-	private supportedTimesPlural = ['weeks', 'days', 'hours', 'minutes', 'seconds'];
-	private supportedTimesAbbrev = ['w', 'd', 'h', 'm', 's'];
-	private milliseconds = [604800000, 86400000, 3600000, 60000, 1000];
+	private readonly timeMap = this.getTimeMap();
 
 	public execute(prefix: string, command: string, message: Message<boolean>, args: string[], misc?: any): void {
 
@@ -41,10 +38,10 @@ export default class RemindMe implements ICommand {
 
 			const setTimeoutPromise = promisify(setTimeout);
 
-			message.channel.send('**Reminder set!**');
+			message.reply(`**Reminder set!**`);
 
 			setTimeoutPromise(totalTime, message).then((message) => {
-				message.reply(`It's time to: ${toSend}`);
+				message.reply(`**It's time to:** ${toSend}`);
 			});
 
 		} else {
@@ -55,18 +52,33 @@ export default class RemindMe implements ICommand {
 	/**
 	 * Gets the time in milliseconds provided the time string
 	 * @param nameOfTime 'second(s)' | 'minute(s)' | 'hour(s)' | 'day(s)' | 'week(s)' | 's' | 'm' | 'h' | 'd' | 'w'
-	 * @returns milliseconds
+	 * @returns milliseconds or 1000ms on fail
 	 */
 	private getTimeMS(nameOfTime: string): number {
+		const time = this.timeMap.get(nameOfTime);
+		return time ? time : 1000;
+	}
+
+	/**
+	 * Creates a map relating times and word equivalents
+	 * @returns a map
+	 */
+	private getTimeMap(): Map<string, number> {
+
+		const supportedTimes = ['week', 'day', 'hour', 'minute', 'second'];
+		const supportedTimesPlural = ['weeks', 'days', 'hours', 'minutes', 'seconds'];
+		const supportedTimesAbbrev = ['w', 'd', 'h', 'm', 's'];
+		const milliseconds = [604800000, 86400000, 3600000, 60000, 1000];
+
 		const timeMap = new Map();
 
-		for (let i = 0; i < this.milliseconds.length; i++) {
-			timeMap.set(this.supportedTimes[i], this.milliseconds[i]);
-			timeMap.set(this.supportedTimesPlural[i], this.milliseconds[i]);
-			timeMap.set(this.supportedTimesAbbrev[i], this.milliseconds[i]);
+		for (let i = 0; i < milliseconds.length; i++) {
+			timeMap.set(supportedTimes[i], milliseconds[i]);
+			timeMap.set(supportedTimesPlural[i], milliseconds[i]);
+			timeMap.set(supportedTimesAbbrev[i], milliseconds[i]);
 		}
 
-		return timeMap.get(nameOfTime);
+		return timeMap;
 
 	}
 }
