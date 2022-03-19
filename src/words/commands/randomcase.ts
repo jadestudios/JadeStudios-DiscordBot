@@ -3,10 +3,12 @@ import IWord from "../word";
 import ICommand from "../../commands/command";
 
 export class RandomCaseWord implements IWord {
-	public readonly name: string = '(([ ][/]\\b([{1}s]))|([/]\\b([{1}s])))'; // '/s or ' /s'
+	public readonly name: string = '(([ ][/]\\b([{1}s]))$|([/]\\b([{1}s]))$)'; // '/s or ' /s'
+	private readonly reg: RegExp = new RegExp(this.name,'gi');
 	public execute(message: Message<boolean>, misc?: any): void {
-		const string = message.content.slice(0, message.content.indexOf('/s'));
-		const args: string[] = string.split(' ');
+		const string = message.content.split(this.reg);
+		if (string.length === 0) return;
+		const args: string[] = string[0].split(' ');
 		if (args.length === 0) return;
 
 		message.channel.send(randomCaseGen(args));
