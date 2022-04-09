@@ -38,6 +38,7 @@ There is a timezone file in /configs. It has been pruned of DST locations.
     * ffmpeg-static
     * @jadestudios/discord-music-player
     * ping
+    * axios
 
 ## Functionality
 ---
@@ -81,6 +82,12 @@ Do npm run build and copy the timezones_compact.db to ./prod/configs
 Start the bot via Node.js using npm run start
 
 Add the bot to your server.
+
+## Docker Pinging
+---
+This bot is written so that an external REST api must be used to handle pings inside docker,so use https://github.com/jadestudios/RestPing
+
+Add the ip address that it is being hosted from into the config, and the bot will take care of it.
 
 ## Cautions:
 ---
