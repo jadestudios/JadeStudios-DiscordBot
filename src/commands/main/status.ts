@@ -1,13 +1,21 @@
 import { EmbedFieldData, Message, MessageEmbed } from "discord.js";
-import { promisify } from "util";
 import { HostHandler } from "../../server/server_HostHandler";
 import ICommand from "../command";
-import { sys } from "ping";
+import { PingResponse, promise } from "ping";
+import { exec } from "child_process"
+import RestPing from "../../util/util_ping";
+import { pingAPIaddress } from "../../configs/config.json"
 
 export default class Status implements ICommand {
 	public readonly name: string = 'status';
 	public readonly description: string = 'Pings a host';
-	public execute(prefix: string, command: string, message: Message<boolean>, args: string[], misc?: any): void {
+	private isInDocker = false;
+
+	constructor() {
+		inDocker().then((v) => this.isInDocker = v);
+	}
+
+	public async execute(prefix: string, command: string, message: Message<boolean>, args: string[], misc?: any): Promise<void> {
 
 		const invalidMessage = `***Invalid, must be:*** ${prefix}${command} hosts
 								${prefix}${command} change <Original Host> <New Host>
@@ -18,34 +26,47 @@ export default class Status implements ICommand {
 		const hostHandler = new HostHandler(`${message.guildId}.db`);
 
 		if (args.length === 0) {
-			const setTimeoutPromise = promisify(setTimeout);
 			const hosts = hostHandler.getHosts();
 			let isDead = false;
 			const fieldArray: EmbedFieldData | EmbedFieldData[] | { name: any; value: any; inline: any; }[] = [];
+			const restAPI = this.isInDocker ? new RestPing(pingAPIaddress) : null;
 
-			hosts.forEach(function (host) {
-				sys.probe(host, function (isAlive) {
-					if (!isAlive) {
+			for (let i = 0; i < hosts.length; i++) {
+				const host = hosts[i];
+				let res;
+				if (restAPI) {
+					try {
+						res = await restAPI.getPingResponse(host) as PingResponse;
+					} catch (error) {
+						fieldArray.push({ name: `Connection to: ${host}`, value: ' Error ', inline: false });
+					}
+
+				} else {
+					try {
+						res = await promise.probe(host);
+					} catch (error) {
+						fieldArray.push({ name: `Connection to: ${host}`, value: ' Error ', inline: false });
+					}
+				}
+				if (res) {
+					if (!res.alive) {
 						isDead = true;
 						fieldArray.push({ name: `Connection to: ${host}`, value: ' Failed ', inline: false });
 					} else {
-						fieldArray.push({ name: `Connection to: ${host}`, value: ' Success', inline: false });
+						fieldArray.push({ name: `Connection to: ${host}`, value: ` Success -> ${res.avg} ms`, inline: false });
 					}
-				});
-			});
+				}
+			}
 
 			fieldArray.unshift({ name: 'Discord API', value: 'Connected', inline: false, });
+			const currentEmbed = new MessageEmbed()
+				.setColor(isDead ? 'RED' : 'GREEN')
+				.setTitle('STATUS')
+				.setDescription(isDead ? 'Partially Online' : 'Fully Online')
+				.addFields(fieldArray)
+				.setTimestamp();
 
-			setTimeoutPromise(hosts.length * 125, message).then((message) => {
-				const currentEmbed = new MessageEmbed()
-					.setColor(isDead ? 'RED' : 'GREEN')
-					.setTitle('STATUS')
-					.setDescription(isDead ? 'Partially Online' : 'Fully Online')
-					.addFields(fieldArray)
-					.setTimestamp();
-
-				message.channel.send({ embeds: [currentEmbed] });
-			});
+			message.channel.send({ embeds: [currentEmbed] });
 
 		} else {
 			switch (args[0].toLowerCase()) {
@@ -102,4 +123,15 @@ export default class Status implements ICommand {
 		}
 
 	}
+}
+
+function inDocker(): Promise<boolean> {
+	return new Promise((resolve, reject) => {
+		exec(`grep 'docker\\|lsc' /proc/1/cgroup`, (error, stdout, stderr) => {
+			if (stdout.includes('docker') || stdout.includes('lsc'))
+				resolve(true);
+			resolve(false);
+		});
+
+	});
 }

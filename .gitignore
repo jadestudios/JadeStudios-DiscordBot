@@ -3,3 +3,5 @@ prod
 src/.scannerwork/.sonar_lock
 src/.scannerwork/report-task.txt
 SonarScan
+.scannerwork/.sonar_lock
+.scannerwork/report-task.txt

@@ -1,13 +1,19 @@
-import { Message, MessageEmbed } from "discord.js";
+import { EmbedAuthorData, EmbedFooterData, Message, MessageEmbed } from "discord.js";
 
 export default function createPinEmbed(m: Message<boolean>, channelName: string): MessageEmbed {
+	const authData = {} as EmbedAuthorData;
+	authData.name = m.author.tag;
+	authData.iconURL = m.author.displayAvatarURL({ format: 'png', dynamic: true });
+	const footer = {} as EmbedFooterData;
+	footer.text = `Pinned Message from #${channelName}`;
+
 	const currentEmbed = new MessageEmbed()
 		.setColor('#66CCFF')
 		.setTitle(`Jump to Message`)
-		.setAuthor(m.author.tag, m.author.displayAvatarURL({ format: 'png', dynamic: true }))
+		.setAuthor(authData)
 		.setURL(m.url)
 		.setTimestamp(m.createdAt)
-		.setFooter(`Pinned Message from #${channelName}`);
+		.setFooter(footer);
 
 	if (m.content.length != 0 && m.content.length < 1024) { //Embed limit is 1024 chars
 		currentEmbed.addFields(

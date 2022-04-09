@@ -1,4 +1,9 @@
-import { MessageEmbed } from "discord.js";
+import { MessageEmbed, EmbedAuthorData } from "discord.js";
+
+
+const auth = {} as EmbedAuthorData;
+auth.name = "Music Player";
+auth.iconURL = "https://raw.githubusercontent.com/jadestudios/JadeStudios-DiscordBot/main/image/music.png";
 
 /**
 	 * Creates an embed for all music related responses
@@ -8,7 +13,7 @@ import { MessageEmbed } from "discord.js";
 export default function createMusicEmbed(string: string): MessageEmbed {
 	const currentEmbed = new MessageEmbed()
 		.setColor('#66ccff')
-		.setAuthor("Music Player", "https://raw.githubusercontent.com/jadestudios/JadeStudios-DiscordBot/main/image/music.png")
+		.setAuthor(auth)
 		.setDescription(string);
 	return currentEmbed;
 }

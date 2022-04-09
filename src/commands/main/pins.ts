@@ -29,7 +29,7 @@ export default class Pins implements ICommand {
 				if (pinHandler.addChannel(message.channel.id)) {
 					message.channel.send('This channel will be archived');
 				} else {
-					message.channel.send('Channel already set to be archived');
+					message.channel.send(`Channel already set to be archived - check with ${prefix}pin list`);
 				}
 				break;
 			}
@@ -40,7 +40,7 @@ export default class Pins implements ICommand {
 				if (pinHandler.setArchiveChannel(message.channel.id)) {
 					message.channel.send('All pins will be archived to this channel');
 				} else {
-					message.channel.send('Channel already set to be used as an archive');
+					message.channel.send(`Channel is already being used - check with ${prefix}pin list`);
 				}
 				break;
 			}
