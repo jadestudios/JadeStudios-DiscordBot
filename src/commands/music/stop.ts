@@ -13,7 +13,6 @@ export default class Stop implements ICommand {
 		if (!queue) return;
 		
 		try {
-			queue.setRepeatMode(RepeatMode.DISABLED);
 			queue.stop();
 		} catch (error) {
 			console.error(error);

@@ -1,4 +1,4 @@
-import { Player, Song } from "@jadestudios/discord-music-player";
+import { Player} from "@jadestudios/discord-music-player";
 import { Message } from "discord.js";
 import checkMusicConstraints from "../../util/util_checkMusicConstraints";
 import createMusicEmbed from "../../util/util_createMusicEmbed";
@@ -46,12 +46,8 @@ export default class Seek implements ICommand {
 			timeCount += (!Number.isNaN(seconds) ? seconds : 0);
 		}
 
-
-
 		if (await queue.seek(timeCount * 1000)) { //seeks in ms
 			message.channel.send({ embeds: [createMusicEmbed(`Seeked to **${args[0]}**`)] });
-			const song = queue.nowPlaying as Song;
-			song.seekTime = 0;
 		}
 	}
 }

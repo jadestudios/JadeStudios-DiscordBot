@@ -1,6 +1,6 @@
 import { Queue } from "@jadestudios/discord-music-player";
 import { TextChannel } from "discord.js";
-import createMusicEmbed from "../../util/util_createMusicEmbed";
+import createMusicEmbed from "../../util/util_createErrorEmbed";
 import IEvent from "../event";
 
 export default class Error implements IEvent {
@@ -14,7 +14,7 @@ export default class Error implements IEvent {
 		if (messageChannel.guild.me?.isCommunicationDisabled()) return; //No response during timeout
 
 		if (messageChannel) {
-			messageChannel.send({ embeds: [createMusicEmbed(`**Yipes**\n Error: ${error}`)] });
+			messageChannel.send({ embeds: [createMusicEmbed(`${error}`)] });
 		}
 	}
 }
