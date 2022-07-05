@@ -11,9 +11,9 @@
   "author": "Jade Studios",
   "license": "MIT",
   "dependencies": {
-    "@discordjs/opus": "^0.7.0",
-    "@discordjs/voice": "^0.7.5",
-    "@jadestudios/discord-music-player": "^8.3.1-az16",
+    "@discordjs/opus": "^0.8.0",
+    "@discordjs/voice": "^0.10.0",
+    "@jadestudios/discord-music-player": "^8.3.1-az17",
     "axios": "^0.26.1",
     "better-sqlite3": "^7.4.5",
     "discord.js": "^13.6.0",
