@@ -24,9 +24,7 @@ export default class Leave implements ICommand {
 				getVoiceConnection(message.guild.id)?.destroy(); //Finds voice connection that the music player is bounded to - Fixes subsequent play error after leave here
 				message.guild.me.voice.disconnect();
 			} else {
-				queue.connection?.stop();
-				queue.connection?.leave();
-				player.deleteQueue(message.guild.id);
+				queue.leave();
 			}
 			message.channel.send({ embeds: [createMusicEmbed(`Bye!`)] });
 

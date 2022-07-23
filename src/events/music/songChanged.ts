@@ -1,4 +1,4 @@
-import { Queue, Song } from "@jadestudios/discord-music-player";
+import { Queue, RepeatMode, Song } from "@jadestudios/discord-music-player";
 import { TextChannel } from "discord.js";
 import createMusicEmbed from "../../util/util_createMusicEmbed";
 import IEvent from "../event";
@@ -10,8 +10,9 @@ export default class SongChanged implements IEvent {
 		const queue = args[0] as Queue;
 		const song = args[1] as Song;
 		const messageChannel = queue.data.channel as TextChannel;
+		if (messageChannel.guild.me?.isCommunicationDisabled()) return; //No response during timeout
 
-		if (messageChannel) {
+		if (messageChannel && queue.repeatMode === RepeatMode.DISABLED) {
 			if (typeof song.data.content === 'undefined') {
 				messageChannel.send({ embeds: [createMusicEmbed(`Now Playing: ${song.name}`)] });
 			} else {

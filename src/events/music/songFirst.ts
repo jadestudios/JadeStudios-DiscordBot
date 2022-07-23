@@ -10,6 +10,7 @@ export default class SongFirst implements IEvent {
 		const queue = args[0] as Queue;
 		const song = args[1] as Song;
 		const messageChannel = queue.data.channel as TextChannel;
+		if (messageChannel.guild.me?.isCommunicationDisabled()) return; //No response during timeout
 
 		if (messageChannel) {
 			if (typeof song.data.content === 'undefined') {
