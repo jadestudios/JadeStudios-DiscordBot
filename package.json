@@ -12,8 +12,8 @@
   "license": "MIT",
   "dependencies": {
     "@discordjs/opus": "^0.8.0",
-    "@discordjs/voice": "^0.10.0",
-    "@jadestudios/discord-music-player": "^8.3.1-az17",
+    "@discordjs/voice": "^0.11.0",
+    "@jadestudios/discord-music-player": "^8.3.1-az18",
     "axios": "^0.26.1",
     "better-sqlite3": "^7.4.5",
     "discord.js": "^13.6.0",
