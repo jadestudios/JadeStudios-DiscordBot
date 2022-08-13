@@ -14,8 +14,8 @@ export default function getMusicEvents(): Collection<string, IEvent> {
 
 	event = new SongFirst;
 	events.set(event.name, event);
-	event = new SongChanged;
-	events.set(event.name, event);
+	// event = new SongChanged;
+	// events.set(event.name, event);
 	event = new SongAdd;
 	events.set(event.name, event);
 	event = new Error;

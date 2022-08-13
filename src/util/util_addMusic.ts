@@ -39,7 +39,7 @@ export default async function addMusic(args: string[], message: Message, player:
 	} catch (error) {
 		console.error(error);
 	}
-	await queue?.join(message.member?.voice.channel).catch(console.error);
+	await queue?.join(message.member?.voice.channelId as string).catch(console.error);
 	await queue?.play(args.join(" ")).then(song => {
 		song.setData({
 			content: customContent
