@@ -1,4 +1,4 @@
-import { Player } from "@jadestudios/discord-music-player";
+import { Player, StreamFilters, StreamFiltersName } from "@jadestudios/discord-music-player";
 import { Message } from "discord.js";
 import createMusicEmbed from "./util_createMusicEmbed";
 
@@ -29,6 +29,15 @@ export default async function addMusic(args: string[], message: Message, player:
 		return
 	}
 
+	let filters: [string] | undefined;
+	if (args.length > 1){
+		const filter = args[args.length - 1];
+		if (filter in StreamFilters){
+			filters = [StreamFilters[filter as StreamFiltersName]];
+			args.pop()
+		}
+	}
+
 	let queue;
 	try {
 		queue = player.createQueue(message.guild.id, {
@@ -40,7 +49,7 @@ export default async function addMusic(args: string[], message: Message, player:
 		console.error(error);
 	}
 	await queue?.join(message.member?.voice.channelId as string).catch(console.error);
-	await queue?.play(args.join(" ")).then(song => {
+	await queue?.play(args.join(" "), {filters: filters ? filters : undefined}).then(song => {
 		song.setData({
 			content: customContent
 		});
