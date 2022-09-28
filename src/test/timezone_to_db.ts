@@ -28,19 +28,19 @@ export class timezones_to_db {
 		statement.run();
 
 		const tzi = JSON.parse(fs.readFileSync(this.fileToReadPath, 'utf8'));
-		tzi.forEach(area => {
+		tzi.forEach((area: { places: [string]; offsetInMinutes: number; }) => {
 
 			(area.places).forEach(selectedPlace => {
 
 				const tziPlaceTemp = selectedPlace.split('\n');
 
-				let tziCity = tziPlaceTemp[0].split(' ');
+				let tziCity:string|string[] = tziPlaceTemp[0].split(' ');
 				tziCity.shift();
 				tziCity.pop();
 
 				tziCity = tziCity.toString().replaceAll(",", "+");
 
-				let tziCountry = tziPlaceTemp[1].split(' ');
+				let tziCountry:string|string[] = tziPlaceTemp[1].split(' ');
 				tziCountry.shift();
 				tziCountry.pop();
 

@@ -7,6 +7,8 @@ export default class RemindMe implements ICommand {
 	public readonly description: string = "Reminders";
 
 	private readonly timeMap = this.getTimeMap();
+	private readonly numberRegex = new RegExp('^(\\d+)$');
+	private readonly wordRegex = new RegExp('^((\\b(second|minute|hour|day|week)+s?)|(\\b([{1}smhdw])))$');
 
 	public execute(prefix: string, command: string, message: Message<boolean>, args: string[], misc?: any): void {
 
@@ -15,11 +17,9 @@ export default class RemindMe implements ICommand {
 			message.channel.send(invalidMessage);
 			return;
 		}
-		const numberRegex = new RegExp('^(\\d+)$');
-		const wordRegex = new RegExp('^((\\b(second|minute|hour|day|week)+s?)|(\\b([{1}smhdw])))$');
 
-		const timeNumber = args[0].match(numberRegex);
-		const timeWord = args[1].match(wordRegex);
+		const timeNumber = args[0].match(this.numberRegex);
+		const timeWord = args[1].match(this.wordRegex);
 
 		if (timeNumber && timeWord) {
 

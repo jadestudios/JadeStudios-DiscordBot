@@ -19,7 +19,12 @@ export default function createPinEmbed(m: Message<boolean>, channelName: string)
 		currentEmbed.addFields(
 			{ name: '\u200B', value: m.content },
 		);
+	} else if (m.content.length >= 1024) {
+		currentEmbed.addFields(
+			{ name: '\u200B', value: m.content.slice(0,1024)},
+		);
 	}
+	
 
 	if (m.embeds.length != 0) {
 		if (m.embeds[0].image != null) {

@@ -4,6 +4,7 @@ import ICommand from "../command";
 export default class Toss implements ICommand {
 	public readonly name: string = 'toss';
 	public readonly description: string = 'Rolls a dice';
+	private readonly diceRegex = new RegExp('^([d])(\\d+)$');
 	public execute(prefix: string, command: string, message: Message<boolean>, args: string[], misc?: any): void {
 		const invalidMessage = `**Invalid, must be:** ${prefix}${command} d<number>`;
 
@@ -12,8 +13,7 @@ export default class Toss implements ICommand {
 			return;
 		} 
 		
-		const diceRegex = new RegExp('^([d])(\\d+)$');
-		const matched = args[0].match(diceRegex);
+		const matched = args[0].match(this.diceRegex);
 		//null on fail, [ 'd20', 'd', '20', index: 0, input: 'd20', groups: undefined ] on success
 
 		if (matched){

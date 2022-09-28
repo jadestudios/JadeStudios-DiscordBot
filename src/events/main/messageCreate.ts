@@ -44,15 +44,20 @@ export default class MessageCreate implements IEvent {
 			return;
 		}
 
-		const [, matchedPrefix] = message.content.match(prefixRegex);
-		const messageArgs = message.content.slice(matchedPrefix.length).trim().split(/ +/);
+		const matchedPrefix = message.content.match(prefixRegex);
+		if (!matchedPrefix) return;
 
-		const command = messageArgs?.shift()!.toLowerCase();
+		//[1] - explicit to [,matchedPrefix]
+		const messageArgs = message.content.slice(matchedPrefix[1].length).trim().split(/ +/);
+
+		const command = messageArgs.shift()?.toLowerCase();
+		if (!command) return;
 
 		if (!this.commands.has(command)) return;
 
 		try {
-			this.commands.get(command)!.execute(prefix, command, message, messageArgs, [player]);
+			//#get(command) is covered above
+			this.commands.get(command)?.execute(prefix, command, message, messageArgs, [player]);
 		} catch (error) {
 			console.error(error);
 			message.reply('Failed to execute command');

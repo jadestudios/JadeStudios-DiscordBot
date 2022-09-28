@@ -127,9 +127,13 @@ export default class Status implements ICommand {
 
 function inDocker(): Promise<boolean> {
 	return new Promise((resolve, reject) => {
-		exec(`grep 'docker\\|lsc' /proc/1/cgroup`, (error, stdout, stderr) => {
-			if (stdout.includes('docker') || stdout.includes('lsc'))
-				resolve(true);
+		exec(`grep -E -o 'docker|lsc' /proc/1/mounts | head -n 1`, (error, stdout, stderr) => { //Finds first match in linux
+			if (!error){
+				if (stdout.includes('docker') || stdout.includes('lsc')){
+					console.log('In Docker - Using RestPing')
+					resolve(true);
+				}
+			}
 			resolve(false);
 		});
 

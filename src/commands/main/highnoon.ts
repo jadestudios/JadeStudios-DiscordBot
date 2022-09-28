@@ -5,6 +5,7 @@ import { TimezoneHandler } from "../../server/server_TimezoneHandler";
 export default class HighNoon implements ICommand {
 	public readonly name: string = 'highnoon';
 	public readonly description: string = 'Find where it is noon in the world';
+	private readonly time = new TimezoneHandler();
 	private readonly timeOffsets = [-660, -600, -540, -480, -420, -360,
 									-300, -240, -180, -120, -60, 0,
 									60, 120, 180, 240, 300, 360, 420,
@@ -21,8 +22,7 @@ export default class HighNoon implements ICommand {
 			i++;
 		}
 
-		const time = new TimezoneHandler();
-		const place = time.getRandomPlace(this.timeOffsets[i]);
+		const place = this.time.getRandomPlace(this.timeOffsets[i]);
 		
 		const button = new MessageActionRow().addComponents(
 			new MessageButton()
