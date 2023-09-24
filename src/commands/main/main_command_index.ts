@@ -12,26 +12,20 @@ import Toss from "./toss";
 
 export default function getMainCommands(): Collection<string, ICommand> {
 	const commands = new Collection<string, ICommand>();
-	let command: ICommand;
-	
-	command = new Ping;
-	commands.set(command.name, command);
-	command = new Catjam;
-	commands.set(command.name, command);
-	command = new HighNoon;
-	commands.set(command.name, command);
-	command = new Toss;
-	commands.set(command.name, command);
-	command = new RemindMe;
-	commands.set(command.name, command);
-	command = new Status;
-	commands.set(command.name, command);
-	command = new Pins;
-	commands.set(command.name, command);
-	command = new Attributes;
-	commands.set(command.name, command);
-	command = new Help;
-	commands.set(command.name, command);
+	let cmd: ICommand[] = [
+		new Ping,
+		new Catjam,
+		new HighNoon,
+		new Toss,
+		new RemindMe,
+		new Status,
+		new Pins,
+		new Attributes,
+		new Help
+	]
 
+	cmd.forEach(element => {
+		commands.set(element.name, element);
+	});	
 	return commands;
 }

@@ -16,32 +16,23 @@ import Stop from "./stop";
 
 export default function getMusicCommands(): Collection<string, ICommand> {
 	const commands = new Collection<string, ICommand>();
-	let command: ICommand;
+	let cmd: ICommand[] = [
+		new Play,
+		new Stop,
+		new Leave,
+		new Pause,
+		new Queue,
+		new Loop,
+		new Resume,
+		new Seek,
+		new Shuffle,
+		new Skip,
+		new Music,
+		new Filters
+	]
 
-	command = new Play;
-	commands.set(command.name, command);
-	command = new Stop;
-	commands.set(command.name, command);
-	command = new Leave;
-	commands.set(command.name, command);
-	command = new Pause;
-	commands.set(command.name, command);
-	command = new Queue;
-	commands.set(command.name, command);
-	command = new Loop;
-	commands.set(command.name, command);
-	command = new Resume;
-	commands.set(command.name, command);
-	command = new Seek;
-	commands.set(command.name, command);
-	command = new Shuffle;
-	commands.set(command.name, command);
-	command = new Skip;
-	commands.set(command.name, command);
-	command = new Music;
-	commands.set(command.name, command);
-	command = new Filters;
-	commands.set(command.name, command);
-
+	cmd.forEach(element => {
+		commands.set(element.name, element);
+	});
 	return commands;
 }

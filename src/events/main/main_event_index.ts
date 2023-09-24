@@ -12,25 +12,20 @@ import Ready from "./ready";
 
 export default function getMainEvents(): Collection<string, IEvent> {
 	const events = new Collection<string, IEvent>();
+	let eve: IEvent[] = [
+		new MessageCreate,
+		new Ready,
+		new GuildMemberAdd,
+		new ChannelPinsUpdate,
+		new GuildCreate,
+		new GuildDelete,
+		new GuildMemberUpdate,
+		new ChannelDelete
+	]
 
-	let event: IEvent;
-	
-	event = new MessageCreate;
-	events.set(event.name, event);
-	event = new Ready;
-	events.set(event.name, event);
-	event = new GuildMemberAdd;
-	events.set(event.name, event);
-	event = new ChannelPinsUpdate;
-	events.set(event.name, event);
-	event = new GuildCreate;
-	events.set(event.name, event);
-	event = new GuildDelete;
-	events.set(event.name, event);
-	event = new GuildMemberUpdate;
-	events.set(event.name, event);
-	event = new ChannelDelete;
-	events.set(event.name, event);
+	eve.forEach(element => {
+		events.set(element.name, element)
+	});
 
 	return events;
 }
