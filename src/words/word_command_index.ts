@@ -3,17 +3,19 @@ import ICommand from "../commands/command";
 import { ClocksCommand } from "./commands/clocks";
 import { HuhCommand } from "./commands/huh";
 import { RandomCaseCommand } from "./commands/randomcase";
+import { HiltonCommand } from "./commands/hilton";
 
 export default function getWordCommands(): Collection<string, ICommand> {
 	const commands = new Collection<string, ICommand>();
-	let command: ICommand;
+	let cmd: ICommand[] = [
+		new HuhCommand,
+		new ClocksCommand,
+		new RandomCaseCommand,
+		new HiltonCommand
+	]
 
-	command = new HuhCommand;
-	commands.set(command.name, command);
-	command = new ClocksCommand;
-	commands.set(command.name, command);
-	command = new RandomCaseCommand;
-	commands.set(command.name, command);
-
+	cmd.forEach(element => {
+		commands.set(element.name, element);
+	});
 	return commands;
 }

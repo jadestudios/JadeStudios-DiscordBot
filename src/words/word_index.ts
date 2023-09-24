@@ -5,6 +5,7 @@ import { HuhWord } from "./commands/huh";
 import { RandomCaseWord } from "./commands/randomcase";
 import Skyrim from "./skyrim";
 import IWord from "./word";
+import { HiltonWordOne, HiltonWordThree, HiltonWordTwo } from "./commands/hilton";
 
 
 
@@ -35,6 +36,17 @@ export default function getWords(): [Collection<string, IWord>, RegExp] {
 	words.set(' /s', word);
 	wordString += `|${word.name}`;
 
+	word = new HiltonWordOne;
+	words.set(word.name, word);
+	wordString += `|${word.name}`
+
+	word = new HiltonWordTwo;
+	words.set(word.name, word);
+	wordString += `|${word.name}`
+
+	word = new HiltonWordThree;
+	words.set(word.name, word);
+	wordString += `|${word.name}`
 
 	const wordRegex = new RegExp(`\\b(${wordString})`, 'gi');
 	return [words, wordRegex];
