@@ -16,7 +16,7 @@ export default class SongChanged implements IEvent {
 		if (messageChannel.guild.me?.isCommunicationDisabled()) return; //No response during timeout
 
 		if (messageChannel && queue.repeatMode === RepeatMode.DISABLED) {
-			if (typeof song.data.content === 'undefined') {
+			if (!song.data.content) {
 				messageChannel.send({ embeds: [createMusicEmbed(`Now Playing: ${song.name}`)] });
 			} else {
 				messageChannel.send(song.data.content);
