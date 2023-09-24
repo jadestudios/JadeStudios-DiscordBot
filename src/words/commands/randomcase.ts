@@ -5,7 +5,7 @@ import ICommand from "../../commands/command";
 export class RandomCaseWord implements IWord {
 	public readonly name: string = '(([ ][/]\\b([{1}s]))$|([/]\\b([{1}s]))$)'; // '/s or ' /s'
 	private readonly reg: RegExp = new RegExp(this.name,'gi');
-	public execute(message: Message<boolean>, misc?: any): void {
+	public async execute(message: Message<boolean>, misc?: any): Promise<void> {
 		const string = message.content.split(this.reg);
 		if (string.length === 0) return;
 		const args: string[] = string[0].split(' ');
@@ -20,7 +20,7 @@ export class RandomCaseCommand implements ICommand {
 	public readonly name: string = "s";
 	public readonly description: string = "makes your sentences all wobbly";
 
-	public execute(prefix: string, command: string, message: Message, args: string[], misc?: any | any[]): void {
+	public async execute(prefix: string, command: string, message: Message, args: string[], misc?: any | any[]): Promise<void> {
 		if (args.length === 0) return;
 		message.channel.send(randomCaseGen(args));
 	}
