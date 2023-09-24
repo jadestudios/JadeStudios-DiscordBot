@@ -30,9 +30,10 @@ export default class MessageCreate implements IEvent {
 
 		const player = args[1] as Player; //args[1] should be a dmp - player object
 
-		if (!prefixRegex.test(message.content)) {
-			if (this.words[1].test(message.content)) {
-				const matchedWord = message.content.match(this.words[1]); //Will only do match if no prefix
+		if (!prefixRegex.test(message.content)) { //should be case-insensitive in here since no args used
+			const ci_content = message.content.toLowerCase()
+			if (this.words[1].test(ci_content)) {
+				const matchedWord = ci_content.match(this.words[1]); //Will only do match if no prefix
 				if (matchedWord) {
 					try {
 						this.words[0].get(matchedWord[0])?.execute(message, [player]);
