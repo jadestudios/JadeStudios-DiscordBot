@@ -1,6 +1,6 @@
-import { Player, StreamFilters, StreamFiltersName } from "@jadestudios/discord-music-player";
+import { Player, Queue, StreamFilters, StreamFiltersName, Utils } from "@jadestudios/discord-music-player";
 import { Message } from "discord.js";
-import createMusicEmbed from "./util_createMusicEmbed";
+import musicWarningMessages from "./util_musicWarningMessages";
 
 /**
  * Adds a song to a queue or starts a queue
@@ -13,22 +13,46 @@ import createMusicEmbed from "./util_createMusicEmbed";
  */
 export default async function addMusic(args: string[], message: Message, player: Player, suppressMessage: boolean, customContent?: any) {
 	if (message.member == null || message.guild == null || message.guild.me == null) return;
+	if (musicWarningMessages(args[0], message, suppressMessage)) return;
 
-	if (!message.member.voice.channel) {
-		if (!suppressMessage) message.channel.send({ embeds: [createMusicEmbed("Please join a voice channel and try again")] });
-		return;
+	let queue = await joinQueue(message, player) as Queue
+
+	if (Utils.regexList.YouTubePlaylist.test(args[0]) || Utils.regexList.SpotifyPlaylist.test(args[0])){
+		playPlaylist([args[0]], queue, customContent);
+	}else{
+		playSong(args, queue, customContent)
 	}
+}
 
-	if (message.guild.me.voice.channel && message.member.voice.channel.id !== message.guild.me.voice.channel.id) {
-		if (!suppressMessage) message.channel.send({ embeds: [createMusicEmbed("We're not in the same voice channel")] });
-		return
+/**
+ * Joins or creates a Queue
+ * @param message Message obj
+ * @param player Player obj
+ * @returns Promise <Queue | undefined> usually not undefined
+ */
+async function joinQueue(message: Message, player: Player):Promise<Queue|undefined>{
+	let queue;
+	try {
+		queue = player.createQueue(message.guild!.id, {
+			data: {
+				channel: message.channel
+			}
+		});
+	} catch (error) {
+		console.error(error);
 	}
+	await queue?.join(message.member?.voice.channelId as string).catch(console.error);
+	return queue
+}
 
-	if (!args[0]) {
-		if (!suppressMessage) message.channel.send({ embeds: [createMusicEmbed("No song title was included")] });
-		return
-	}
-
+/**
+ * Adds a song to a queue
+ * @param args What to search
+ * @param queue Queue obj
+ * @param customContent Anything for Message.channel.send
+ * @returns 
+ */
+async function playSong(args: string[], queue: Queue, customContent?: any) {
 	let filters: [string] | undefined;
 	if (args.length > 1){
 		const filter = args[args.length - 1];
@@ -38,20 +62,20 @@ export default async function addMusic(args: string[], message: Message, player:
 		}
 	}
 
-	let queue;
-	try {
-		queue = player.createQueue(message.guild.id, {
-			data: {
-				channel: message.channel
-			}
-		});
-	} catch (error) {
-		console.error(error);
-	}
-	await queue?.join(message.member?.voice.channelId as string).catch(console.error);
 	await queue?.play(args.join(" "), {filters: filters ? filters : undefined}).then(song => {
 		song.setData({
 			content: customContent
 		});
 	}).catch(console.error);
+}
+
+/**
+ * Adds a playlist to a queue
+ * @param args URL
+ * @param queue Queue obj
+ * @param customContent Unused
+ * @returns 
+ */
+async function playPlaylist(args: string[], queue: Queue, customContent?: any) {
+	await queue.playlist(args.join(" "), {data: {content: customContent}}).catch(console.error);
 }
