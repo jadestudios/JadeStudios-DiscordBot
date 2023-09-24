@@ -11,16 +11,21 @@ export default class Skip implements ICommand {
 		const player = <Player>misc[0];
 		const queue = checkMusicConstraints(message, player);
 		if (!queue) return;
+		let index = 0
+		if (args.length > 0){
+			index = parseInt(args[0])
+			index = Number.isNaN(index) ? 0 : index -1 //default is 0
+		}
 
 		let songs;
 		try {
-			songs = queue.skip();
+			songs = queue.skip(index);
 		} catch (error) {
 			console.error(error);
 		} 
 		
 		if (songs) {
-			message.channel.send({ embeds: [createMusicEmbed(`Skipped: **${songs.name}**`)] });
+			message.channel.send({ embeds: [createMusicEmbed(`Skipped: **${songs.name}${index !== 0 ? (' and ' + index + ' others') : ''}**`)] });
 		}
 	}
 }
