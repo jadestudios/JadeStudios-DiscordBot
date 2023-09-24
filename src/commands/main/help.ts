@@ -39,7 +39,7 @@ For more info, click the link below.`;
 		);
 		message.author.send({ content: toPrint, components: [button] })
 			.then(m2 => {
-				message.reply(`Cheers, love! The cavalry's here!`);
+				message.reply(`Cheers love, the cavalry's here!`);
 			})
 			.catch(error => {
 				console.error(error);
