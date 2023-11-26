@@ -285,8 +285,8 @@ export class UserHandler extends Server {
 	 */
 	public refreshUserTable(){
 		const db = new Database(`${this.getFilePath()}`);
-			let statement = db.prepare("DROP TABLE users");
-			try {
+		let statement = db.prepare("DROP TABLE users");//TODO: Add IF EXISTS condition to prevent possible crash
+		try {
 				statement.run();
 				statement = db.prepare("CREATE TABLE IF NOT EXISTS users (userID TEXT UNIQUE, name TEXT, discriminator TEXT, displayName TEXT)");
 				statement.run();

@@ -118,7 +118,7 @@ export class RoleHandler extends UserHandler {
 	/**
 	 * Drops and Creates roles table
 	 */
-	public refreshRoleTable(){
+	public refreshRoleTable(){ //TODO: Add IF EXISTS condition to prevent possible crash
 		const db = new Database(`${this.getFilePath()}`);
 			let statement = db.prepare("DROP TABLE roles");
 			try {
