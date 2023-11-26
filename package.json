@@ -1,6 +1,6 @@
 {
   "name": "jadestudios-bot",
-  "version": "1.7.0",
+  "version": "1.7.1",
   "description": "",
   "main": "./prod/jadestudios-bot.js",
   "scripts": {
@@ -11,7 +11,7 @@
   "author": "Jade Studios",
   "license": "MIT",
   "dependencies": {
-    "@jadestudios/discord-music-player": "^9.1.1-az24",
+    "@jadestudios/discord-music-player": "^9.1.1-az26",
     "better-sqlite3": "^7.4.5",
     "discord.js": "^13.6.0",
     "ping": "^0.4.1"

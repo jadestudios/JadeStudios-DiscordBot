@@ -17,7 +17,7 @@ export default async function addMusic(args: string[], message: Message, player:
 
 	let queue = await joinQueue(message, player) as Queue
 
-	if (Utils.regexList.YouTubePlaylist.test(args[0]) || Utils.regexList.SpotifyPlaylist.test(args[0])){
+	if (Utils.isListLink(args[0])[0]){
 		playPlaylist([args[0]], queue, customContent);
 	}else{
 		playSong(args, queue, customContent)
