@@ -1,0 +1,6 @@
+{
+	"tests": [
+		{"command": "!ping", "expects": "Pong"},
+		{"command": "catjam", "expects": ""} 
+	]
+}
