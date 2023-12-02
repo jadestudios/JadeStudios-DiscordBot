@@ -11,43 +11,23 @@ import { HiltonWordOne, HiltonWordThree, HiltonWordTwo } from "./commands/hilton
 
 export default function getWords(): [Collection<string, IWord>, RegExp] {
 	const words = new Collection<string, IWord>();
+	const wordStringArr: string[] = [];
 
-	let word: IWord;
-	let wordString = '';
+	const addWord = (word: IWord) => {
+		words.set(word.name, word);
+		wordStringArr.push(word.name);
+	};
 
-	word = new Skyrim;
-	words.set(word.name, word);
-	wordString += `${word.name}`; //Add or bar not at the last one
-	
-	word = new HuhWord;
-	words.set(word.name, word);
-	wordString += `|${word.name}`;
+	addWord(new Skyrim());
+	addWord(new HuhWord());
+	addWord(new ClocksWord());
+	addWord(new roleOne());
+	addWord(new RandomCaseWord());
+	addWord(new HiltonWordOne());
+	addWord(new HiltonWordTwo());
+	addWord(new HiltonWordThree());
 
-	word = new ClocksWord;
-	words.set(word.name, word);
-	wordString += `|${word.name}`;
-
-	word = new roleOne;
-	words.set(word.name, word);
-	wordString += `|${word.name}`;
-
-	word = new RandomCaseWord;
-	words.set('/s', word);
-	words.set(' /s', word);
-	wordString += `|${word.name}`;
-
-	word = new HiltonWordOne;
-	words.set(word.name, word);
-	wordString += `|${word.name}`
-
-	word = new HiltonWordTwo;
-	words.set(word.name, word);
-	wordString += `|${word.name}`
-
-	word = new HiltonWordThree;
-	words.set(word.name, word);
-	wordString += `|${word.name}`
-
+	const wordString = wordStringArr.join('|');
 	const wordRegex = new RegExp(`\\b(${wordString})`, 'gi');
 	return [words, wordRegex];
 }

@@ -3,7 +3,7 @@ import IWord from "../word";
 import ICommand from "../../commands/command";
 
 export class RandomCaseWord implements IWord {
-	public readonly name: string = '(([ ][/]\\b([{1}s]))$|([/]\\b([{1}s]))$)'; // '/s or ' /s'
+	public readonly name: string = '/\\b[sS]'; // Matches '/s' or '/S'
 	private readonly reg: RegExp = new RegExp(this.name,'gi');
 	public async execute(message: Message<boolean>, misc?: any): Promise<void> {
 		const string = message.content.split(this.reg);
@@ -27,15 +27,15 @@ export class RandomCaseCommand implements ICommand {
 }
 
 function randomCaseGen(args: string[]): string {
-
-	const newContents = [];
-
-	for (let i = 0; i < args.length; i++) {
-		const currentArg = args[i].toLowerCase();
-		for (let j = 0; j < currentArg.length; j++) { //https://github.com/dyzhu12/studly-caps/blob/master/lib/studlyCaps.js
-			Math.random() >= 0.5 ? newContents.push(currentArg[j].toUpperCase()) : newContents.push(currentArg[j].toLowerCase());		
-		}
-		newContents.push(' ');
-	}
-	return newContents.join("").toString();
+	return args
+		.map((arg) =>
+			arg
+				.toLowerCase()
+				.split("")
+				.map((char) =>
+					Math.random() >= 0.5 ? char.toUpperCase() : char.toLowerCase()
+				)
+				.join("")
+		)
+		.join(" ");
 }
