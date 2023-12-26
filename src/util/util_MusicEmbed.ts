@@ -26,17 +26,18 @@ export class MusicEmbed {
 		this.channel = channel;
 		this.message = undefined;
 		this.song = undefined;
-		this.previous = '';
+		this.previous = '\u200B';
 		this.sendLock = false;
 	}
 
 	public send(option: MessageOptions, args: { song?: Song, queue: Queue, note?: string }) {
+		if (this.channel.guild.me?.isCommunicationDisabled()) return; //No response during timeout
+		
 		if (args.queue.songs.length === 0) {
 			this.song = undefined
 		} else {
 			this.song = args.queue.nowPlaying;
 		}
-
 
 		if (!this.message) { //First case
 			if (!this.sendLock) {
@@ -64,27 +65,39 @@ export class MusicEmbed {
 	}
 
 	private createMessage(option: MessageOptions, args: { song?: Song, queue: Queue, note?: string }): MessageEmbed {
+		let embed: MessageEmbed;
 		switch (option) {
 			case MessageOptions.error:
-				return this.createEmbed(args.queue);
-
+				embed = this.createEmbed(args.queue);
+				this.previous = `Error: ${args.note}`
+				break;
 			case MessageOptions.nowplaying:
-				return this.createEmbed(args.queue);
-
+				embed = this.createEmbed(args.queue);
+				this.previous = `Now Playing: ${args.song!.name}`
+				break;
 			case MessageOptions.other: {
+				embed = this.createEmbed(args.queue);
 				this.previous = args.note!;
-				return this.createEmbed(args.queue);
+				break;
 			}
-
 			case MessageOptions.skip: {
-				this.previous = args.note!;
 				if (args.queue.songs.length <= 1)
 					this.song = undefined
-				return this.createEmbed(args.queue);
+				embed = this.createEmbed(args.queue);
+				this.previous = `Skipped: ${args.song!.name}`;
+				break;
+			}
+			case MessageOptions.addmusic: {
+				embed = this.createEmbed(args.queue);
+				this.previous = `Added to queue: ${args.song!.name}`;
+				break;
 			}
 			default:
-				return this.createEmbed(args.queue);
+				embed = this.createEmbed(args.queue);
+				this.previous = 'Unknown Option';
+				break;
 		}
+		return embed;
 
 	}
 

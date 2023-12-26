@@ -3,6 +3,7 @@ import { TextChannel } from "discord.js";
 import createMusicEmbed from "../../util/util_createMusicEmbed";
 import { QueueData } from "../../util/util_customTypes";
 import IEvent from "../event";
+import { MessageOptions } from "../../util/util_MusicEmbed";
 
 export default class SongAdd implements IEvent {
 	public readonly name: string = 'songAdd';
@@ -12,11 +13,13 @@ export default class SongAdd implements IEvent {
 		const song = args[1] as Song;
 		const data = queue.data as QueueData;
 
-		const messageChannel = data.channel as TextChannel;
-		if (messageChannel.guild.me?.isCommunicationDisabled()) return; //No response during timeout
+		const messageChannel = data.channel;
+		const musicEmbed = data.musicEmbed;
+		// if (messageChannel.guild.me?.isCommunicationDisabled()) return; //No response during timeout
 
-		if (messageChannel) {
-			messageChannel.send({ embeds: [createMusicEmbed(`Added to queue: ${song.name}`)] });
-		}
+		// if (messageChannel) {
+		// 	messageChannel.send({ embeds: [createMusicEmbed(`Added to queue: ${song.name}`)] });
+		// }
+		musicEmbed.send(MessageOptions.addmusic, { queue: queue, song: song })
 	}
 }

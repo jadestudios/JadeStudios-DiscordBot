@@ -1,6 +1,7 @@
 import { Player, Queue, StreamFilters, StreamFiltersName, Utils } from "@jadestudios/discord-music-player";
-import { Message } from "discord.js";
+import { Message, TextChannel } from "discord.js";
 import musicWarningMessages from "./util_musicWarningMessages";
+import { MusicEmbed } from "./util_MusicEmbed";
 
 /**
  * Adds a song to a queue or starts a queue
@@ -15,7 +16,7 @@ export default async function addMusic(args: string[], message: Message, player:
 	if (message.member == null || message.guild == null || message.guild.me == null) return;
 	if (musicWarningMessages(args[0], message, suppressMessage)) return;
 
-	let queue = await joinQueue(message, player) as Queue
+	const queue = await joinQueue(message, player) as Queue
 
 	if (Utils.isListLink(args[0])[0]){
 		playPlaylist([args[0]], queue, customContent);
@@ -32,10 +33,12 @@ export default async function addMusic(args: string[], message: Message, player:
  */
 async function joinQueue(message: Message, player: Player):Promise<Queue|undefined>{
 	let queue;
+	const channel = message.channel as TextChannel;
 	try {
 		queue = player.createQueue(message.guild!.id, {
 			data: {
-				channel: message.channel
+				channel: channel,
+				musicEmbed: new MusicEmbed(channel)
 			}
 		});
 	} catch (error) {

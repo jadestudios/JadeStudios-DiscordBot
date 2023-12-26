@@ -3,6 +3,7 @@ import { TextChannel } from "discord.js";
 import createMusicEmbed from "../../util/util_createMusicEmbed";
 import { QueueData } from "../../util/util_customTypes";
 import IEvent from "../event";
+import { MessageOptions } from "../../util/util_MusicEmbed";
 
 export default class SongFirst implements IEvent {
 	public readonly name: string = 'songFirst';
@@ -13,14 +14,22 @@ export default class SongFirst implements IEvent {
 		const data = queue.data as QueueData;
 
 		const messageChannel = data.channel as TextChannel;
-		if (messageChannel.guild.me?.isCommunicationDisabled()) return; //No response during timeout
+		// if (messageChannel.guild.me?.isCommunicationDisabled()) return; //No response during timeout
 
-		if (messageChannel) {
-			if (!song.data.content) {
-				messageChannel.send({ embeds: [createMusicEmbed(`Now Playing: ${song.name}`)] });
-			} else {
-				messageChannel.send(song.data.content);
-			}
-		}
+		// if (messageChannel) {
+		// 	if (!song.data.content) {
+		// 		messageChannel.send({ embeds: [createMusicEmbed(`Now Playing: ${song.name}`)] });
+		// 	} else {
+		// 		messageChannel.send(song.data.content);
+		// 	}
+		// }
+		const musicEmbed = data.musicEmbed;
+		// if (messageChannel.guild.me?.isCommunicationDisabled()) return; //No response during timeout
+
+		// if (messageChannel) {
+		// 	messageChannel.send({ embeds: [createMusicEmbed(`Added to queue: ${song.name}`)] });
+		// }
+		musicEmbed.send(MessageOptions.nowplaying, { queue: queue, song: song })
+
 	}
 }
