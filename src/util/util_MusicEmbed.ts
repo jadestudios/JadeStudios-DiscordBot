@@ -32,7 +32,7 @@ export class MusicEmbed {
 
 	public send(option: MessageOptions, args: { song?: Song, queue: Queue, note?: string }) {
 		if (this.channel.guild.me?.isCommunicationDisabled()) return; //No response during timeout
-		
+
 		if (args.queue.songs.length === 0) {
 			this.song = undefined
 		} else {
@@ -42,7 +42,7 @@ export class MusicEmbed {
 		if (!this.message) { //First case
 			if (!this.sendLock) {
 				this.sendLock = true
-				this.channel.send({ embeds: [this.createMessage(option, args)] }).then(message => {
+				this.channel.send({ embeds: [this.createMessage(option, args), this.createPlaylistEmbed(args.queue, 1)] }).then(message => {
 					this.message = message;
 					this.sendLock = false;
 				});
@@ -53,13 +53,13 @@ export class MusicEmbed {
 				if (!this.sendLock) {
 					this.sendLock = true
 					this.message.delete();
-					this.channel.send({ embeds: [this.createMessage(option, args)] }).then(message => {
+					this.channel.send({ embeds: [this.createMessage(option, args), this.createPlaylistEmbed(args.queue, 1)] }).then(message => {
 						this.message = message;
 						this.sendLock = false;
 					});
 				}
 			} else {
-				this.message.edit({ embeds: [this.createMessage(option, args)] });
+				this.message.edit({ embeds: [this.createMessage(option, args), this.createPlaylistEmbed(args.queue, 1)] });
 			}
 		}
 	}
@@ -127,5 +127,19 @@ export class MusicEmbed {
 				.setDescription(this.previous);
 		}
 		return currentEmbed
+	}
+	private createPlaylistEmbed(queue: Queue, page: number): MessageEmbed {
+		const pages = Math.ceil(queue.songs.length / 5);
+		if (page > pages) page = pages;
+		if (page < 1) page = 1;
+		const start_index = ((page - 1) * 5) + 1;
+		const end_index = start_index + 5;
+
+		return new MessageEmbed()
+			.setColor('#66ccff')
+			.setDescription(`**In Queue:**\n` + (queue.songs.map((track, i) => {
+				return `**#${i}** - ${track.name}`
+			}).slice(start_index, end_index).join('\n') + `\n\nPage **${page}/${pages}**\nTotal songs in Playlist: **${queue.songs.length}**`)
+			)
 	}
 }
