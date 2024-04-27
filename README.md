@@ -32,13 +32,9 @@ There is a timezone file in /configs. It has been pruned of DST locations.
 * Node.js v16.13
 * External Node modules:
     * Discord.js v13.6.0
-    * @discordjs/opus
-    * @discordjs/voice
     * better-sqlite3
-    * ffmpeg-static
     * @jadestudios/discord-music-player
     * ping
-    * axios
 
 ## Functionality
 ---
