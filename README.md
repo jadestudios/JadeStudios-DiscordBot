@@ -29,7 +29,7 @@ There is a timezone file in /configs. It has been pruned of DST locations.
 
 ## Dependencies
 ---
-* Node.js v16.13
+* Node.js v18+
 * External Node modules:
     * Discord.js v13.6.0
     * better-sqlite3

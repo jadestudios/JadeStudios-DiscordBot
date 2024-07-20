@@ -36,17 +36,18 @@ export default function getWords(): [Collection<string, IWord>, RegExp] {
 	words.set(' /s', word);
 	wordString += `|${word.name}`;
 
-	word = new HiltonWordOne;
-	words.set(word.name, word);
-	wordString += `|${word.name}`
+	//The moment I implement this, it was no longer relevant
+	// word = new HiltonWordOne;
+	// words.set(word.name, word);
+	// wordString += `|${word.name}`
 
-	word = new HiltonWordTwo;
-	words.set(word.name, word);
-	wordString += `|${word.name}`
+	// word = new HiltonWordTwo;
+	// words.set(word.name, word);
+	// wordString += `|${word.name}`
 
-	word = new HiltonWordThree;
-	words.set(word.name, word);
-	wordString += `|${word.name}`
+	// word = new HiltonWordThree;
+	// words.set(word.name, word);
+	// wordString += `|${word.name}`
 
 	const wordRegex = new RegExp(`\\b(${wordString})`, 'gi');
 	return [words, wordRegex];
