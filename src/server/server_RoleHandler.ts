@@ -1,5 +1,6 @@
 import Database from 'better-sqlite3';
 import { UserHandler } from './server_UserHandler';
+import { RoleHandler_Role } from '../interfaces/sqlite_interfaces';
 
 /**
  * Handles all role related actions within a database
@@ -52,7 +53,7 @@ export class RoleHandler extends UserHandler {
 	 */
 	public getRoles(userID: string): string[] {
 
-		const row = this.getAllData("roles", "role", userID);
+		const row = this.getAllData("roles", "role", userID) as RoleHandler_Role[];
 
 		if (typeof row === 'undefined') {
 			return [];

@@ -23,6 +23,9 @@ export default class HighNoon implements ICommand {
 		}
 
 		const place = this.time.getRandomPlace(this.timeOffsets[i]);
+		if (!place) {
+			return;
+		}
 		
 		const button = new MessageActionRow().addComponents(
 			new MessageButton()

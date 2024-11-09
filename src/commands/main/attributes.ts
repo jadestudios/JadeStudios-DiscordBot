@@ -27,6 +27,9 @@ export default class Attributes implements ICommand {
 			return null;
 		}
 
+		if (!resolvedUser) {
+			return null;
+		}
 		return resolvedUser.userID;
 	}
 

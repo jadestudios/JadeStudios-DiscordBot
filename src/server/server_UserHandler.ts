@@ -1,5 +1,6 @@
 import Database from 'better-sqlite3';
 import { Server } from './server_Server';
+import { UserHandler_User } from '../interfaces/sqlite_interfaces';
 
 /**
  * Handles all user related actions within a database
@@ -75,7 +76,7 @@ export class UserHandler extends Server {
 	 * Access via __.(userID| name | discriminator | displayName)
 	 */
 	public getUser(userID: string) {
-		return this.getData("users", "*", userID);
+		return this.getData("users", "*", userID) as UserHandler_User;
 	}
 
 	/**
@@ -97,7 +98,7 @@ export class UserHandler extends Server {
 		}
 
 		db.close();
-		return row;
+		return row as UserHandler_User;
 	}
 
 	/**
@@ -122,7 +123,7 @@ export class UserHandler extends Server {
 		if (typeof row === 'undefined') {
 			return [];
 		}
-		return row;
+		return row as UserHandler_User[];
 	}
 
 
@@ -145,7 +146,7 @@ export class UserHandler extends Server {
 	 */
 	public getName(userID: string):string | undefined {
 
-		const row = this.getData("users", "name", userID);
+		const row = this.getData("users", "name", userID) as UserHandler_User;
 
 		if (typeof row === 'undefined') {
 			return;
@@ -171,7 +172,7 @@ export class UserHandler extends Server {
 	 */
 	public getDiscrminator(userID: string):string | undefined {
 
-		const row = this.getData("users", "discriminator", userID);
+		const row = this.getData("users", "discriminator", userID) as UserHandler_User;
 
 		if (typeof row === 'undefined') {
 			return;
@@ -196,7 +197,7 @@ export class UserHandler extends Server {
 	 * @returns display name
 	 */
 	public getDisplayName(userID: string): string | undefined {
-		const row = this.getData("users", "displayName", userID);
+		const row = this.getData("users", "displayName", userID) as UserHandler_User;
 
 		if (typeof row === 'undefined') {
 			return;

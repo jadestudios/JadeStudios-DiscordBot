@@ -12,9 +12,11 @@ export class TimezoneHandlerTest {
 		const test = new TimezoneHandler();
 		const row = test.getRandomPlace(-660);
 		console.log(row);
-		if (row.url.includes("google")) {
-			console.log("TimezoneHandler class getRandomPlace Test Passed");
-			return 0;
+		if (row !== undefined) {
+			if (row.url.includes("google")) {
+				console.log("TimezoneHandler class getRandomPlace Test Passed");
+				return 0;
+			}
 		}
 		console.log("TimezoneHandler class getRandomPlace Test Failed");
 		return 1;

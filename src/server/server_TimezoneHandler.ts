@@ -1,5 +1,6 @@
 import Database from 'better-sqlite3';
 import ServerFrame from './server_ServerFrame';
+import { TimezoneHandler_Place } from '../interfaces/sqlite_interfaces';
 
 /**
  * Handles time related items in its own database
@@ -23,7 +24,7 @@ export class TimezoneHandler extends ServerFrame {
 	 * 
 	 * Access via _.(placeMessage | url)
 	 */
-	public getRandomPlace(offset: number) {
+	public getRandomPlace(offset: number): TimezoneHandler_Place | undefined {
 		if (this.foundDB()) {
 			const db = new Database(`${this.getFilePath()}`);
 			const statement = db.prepare(`SELECT placeMessage, url FROM timezones WHERE offset = ? ORDER by random()`);
@@ -36,7 +37,7 @@ export class TimezoneHandler extends ServerFrame {
 			}
 			db.close();
 
-			return row;
+			return row as TimezoneHandler_Place;
 		}
 	}
 }

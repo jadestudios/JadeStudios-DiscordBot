@@ -1,5 +1,6 @@
 import Database from 'better-sqlite3';
 import { UserHandler } from './server_UserHandler';
+import { AttributeHandler_Attribute } from '../interfaces/sqlite_interfaces';
 
 /**
  * Handles all attribute related actions within a database
@@ -76,9 +77,9 @@ export class AttributeHandler extends UserHandler {
 	 * 
 	 * Access by __[n].(name | value)
 	 */
-	public getAttributes(userID: string) {
+	public getAttributes(userID: string): AttributeHandler_Attribute[] {
 
-		const row = this.getAllData("attributes", "name, value", userID);
+		const row = this.getAllData("attributes", "name, value", userID) as AttributeHandler_Attribute[];
 
 		if (typeof row === 'undefined') {
 			return [];
@@ -95,13 +96,13 @@ export class AttributeHandler extends UserHandler {
 	 * 
 	 * Access by _.(userID | name | value)
 	 */
-	public getAttribute(userID: string, name: string) {
+	public getAttribute(userID: string, name: string): AttributeHandler_Attribute | undefined {
 
 		const db = new Database(`${this.getFilePath()}`);
 		const statement = db.prepare(`SELECT * FROM attributes WHERE userID = ? AND name = ?`);
 		let row;
 		try {
-			row = statement.get(userID, name);
+			row = statement.get(userID, name) as AttributeHandler_Attribute;
 		} catch (error) {
 			db.close();
 			return;
@@ -118,13 +119,13 @@ export class AttributeHandler extends UserHandler {
 	 * 
 	 * Access by __[n].(userID | name | value)
 	 */
-	public getAllWithAttribute(name: string) {
+	public getAllWithAttribute(name: string): AttributeHandler_Attribute[] {
 
 		const db = new Database(`${this.getFilePath()}`);
 		const statement = db.prepare(`SELECT * FROM attributes WHERE name = ? ORDER BY value DESC`);
 		let row;
 		try {
-			row = statement.all(name);
+			row = statement.all(name) as AttributeHandler_Attribute[];
 		} catch (error) {
 			db.close();
 			return [];

@@ -91,7 +91,7 @@ export class HostHandler extends Server {
 		const statement = db.prepare(`SELECT * FROM hosts`);
 		let row;
 		try {
-			row = statement.all();
+			row = statement.all() as { url: string }[];
 		} catch (error) {
 			db.close();
 			return [];

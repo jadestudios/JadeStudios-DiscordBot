@@ -75,9 +75,12 @@ export class AttributeHandlerTest {
 	private serverTestgetAttributeHotOfUser1() {
 		console.log("AttributeHandler class getAttribute Hot of User 1 Test Started");
 		const test = new AttributeHandler(this.FILENAME);
-		if ((test.getAttribute('1', "HOT")).value === 100) {
-			console.log("AttributeHandler class getAttribute Hot of User 1 Test Passed");
-			return 0;
+		const x = test.getAttribute('1', "HOT");
+		if (x !== undefined) {
+			if (x.value === 100) {
+				console.log("AttributeHandler class getAttribute Hot of User 1 Test Passed");
+				return 0;
+			}
 		}
 		console.log("AttributeHandler class getAttribute Hot of User 1 Test Failed");
 		return 1;

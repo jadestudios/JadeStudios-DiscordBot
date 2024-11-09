@@ -1,5 +1,6 @@
 import Database from 'better-sqlite3';
 import { Server } from './server_Server';
+import { PinHandler_Pin } from '../interfaces/sqlite_interfaces';
 
 /**
  * Handles all pin related actions within a database
@@ -160,7 +161,7 @@ export class PinHandler extends Server {
 		const statement = db.prepare(`SELECT * FROM ${table}`);
 		let row;
 		try {
-			row = statement.all();
+			row = statement.all() as PinHandler_Pin[];
 		} catch (error) {
 			db.close();
 			return [];
